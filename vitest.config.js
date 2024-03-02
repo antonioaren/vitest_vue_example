@@ -13,6 +13,7 @@ export default mergeConfig(
                 'src/App.vue',
                 'src/main.js',
                 'src/*.config.js',
+
             ],
             root: fileURLToPath(new URL('./', import.meta.url)),
         },
