@@ -7,7 +7,7 @@ const calculator = [
     ['7', '8', '9', '/'],
     ['4', '5', '6', 'x'],
     ['1', '2', '3', '-'],
-    ['0', '.', '=', '+']
+    ['0', '.', '=', '+'],
 ]
 
 let accumulate = ref('0')
@@ -20,14 +20,14 @@ const relation = {
     '+': Calculator.sum,
     '-': Calculator.substract,
     x: Calculator.multiply,
-    '/': Calculator.divide
+    '/': Calculator.divide,
 }
 
 function resolveOperation() {
     if (!aux || !operation) return
     accumulate.value = relation[operation](
         parseFloat(aux),
-        parseFloat(accumulate.value)
+        parseFloat(accumulate.value),
     ).toString()
     aux = '0'
     operation = null
@@ -87,7 +87,11 @@ function catchInput(keyup) {
         <div class="display">
             {{ accumulate }}
         </div>
-        <div class="row" v-for="(row, index) in calculator" :key="index">
+        <div
+            class="row"
+            v-for="(row, index) in calculator"
+            :key="index"
+        >
             <button
                 class="keyup"
                 @click="catchInput(keyup)"
