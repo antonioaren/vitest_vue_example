@@ -32,4 +32,4 @@ jobs:
     - name: Run Tests
       run: pnpm run test:unit
     - name: Build Frontend
-      run: pnpm run build --if-present
+      run: pnpm run build
