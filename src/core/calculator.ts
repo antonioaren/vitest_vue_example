@@ -1,5 +1,5 @@
 class Calculator {
-    public sum(a: number, b: number): number {
+    public add(a: number, b: number): number {
         return a + b
     }
 
@@ -12,6 +12,9 @@ class Calculator {
     }
 
     public divide(a: number, b: number): number {
+        if (b === 0) {
+            throw new Error('Cannot divide by zero')
+        }
         return a / b
     }
 }
