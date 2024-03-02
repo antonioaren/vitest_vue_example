@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import Calculator from './core/calculator'
 
-
 const calculator = [
     ['A', 'C', '%', ' '],
     ['7', '8', '9', '/'],
@@ -20,13 +19,16 @@ let isOperationResult = false
 const relation = {
     '+': Calculator.sum,
     '-': Calculator.substract,
-    'x': Calculator.multiply,
+    x: Calculator.multiply,
     '/': Calculator.divide
 }
 
 function resolveOperation() {
     if (!aux || !operation) return
-    accumulate.value = relation[operation](parseFloat(aux), parseFloat(accumulate.value)).toString()
+    accumulate.value = relation[operation](
+        parseFloat(aux),
+        parseFloat(accumulate.value)
+    ).toString()
     aux = '0'
     operation = null
     isFirstTime = true
@@ -39,7 +41,6 @@ function reset() {
     isFirstTime = true
     isOperationResult = false
 }
-
 
 function handleOperation(keyup) {
     if (keyup === '+' || keyup === '-' || keyup === 'x' || keyup === '/') {
@@ -68,7 +69,6 @@ function handleNumber(keyup) {
 }
 
 function catchInput(keyup) {
-
     if (isNaN(keyup)) {
         handleOperation(keyup)
     } else {
@@ -79,7 +79,6 @@ function catchInput(keyup) {
         handleNumber(keyup)
     }
 }
-
 </script>
 
 <template>
@@ -89,16 +88,19 @@ function catchInput(keyup) {
             {{ accumulate }}
         </div>
         <div class="row" v-for="(row, index) in calculator" :key="index">
-            <button class="keyup" @click="catchInput(keyup)" v-for="(keyup, idx) in row" :key="idx">
+            <button
+                class="keyup"
+                @click="catchInput(keyup)"
+                v-for="(keyup, idx) in row"
+                :key="idx"
+            >
                 {{ keyup }}
             </button>
         </div>
     </div>
-
 </template>
 
 <style lang="scss" scoped>
-
 .container {
     .display {
         padding: 20px;
@@ -124,5 +126,4 @@ function catchInput(keyup) {
         }
     }
 }
-
 </style>
