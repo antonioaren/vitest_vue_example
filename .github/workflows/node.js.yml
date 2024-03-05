@@ -35,6 +35,9 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
 
+    - name: Run application locally to be used by acceptance tests
+      run: npm run dev
+
     - name: Run Acceptance Tests
       run: npm run test:bdd
 
