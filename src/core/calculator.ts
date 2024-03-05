@@ -4,6 +4,10 @@ class Calculator {
     }
 
     public substract(a: number, b: number): number {
+        if (a - b < 0) throw new Error('Resultado negativo')
+        if(Math.sign(b) === -1) {
+            b = Math.abs(b)
+        }
         return a - b
     }
 
