@@ -11,7 +11,7 @@
     "test:unit": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "test:bdd": "cucumber-js",
+    "test:bdd": "npx cucumber-js",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
