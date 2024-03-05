@@ -22,7 +22,4 @@ Feature: make it work the calculator
       | 2    | -         | 2    | 0      |
       | 2    | x         | 4    | 8      |
       | 2    | x         | 4    | 8      |
-      | 10   | /         | 2    | 5      |
-
-    Scenario : clean the display
-      Given
+      | 8    | /         | 2    | 4      |
