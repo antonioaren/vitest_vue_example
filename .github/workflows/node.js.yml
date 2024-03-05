@@ -27,10 +27,16 @@ jobs:
         cache: 'npm'
 
     - name: Install Dependencies
-      run: npm i
+      run: npm ci
 
     - name: Run Tests
       run: npm run test:coverage
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+
+    - name: Run Acceptance Tests
+      run: npm run test:bdd
 
     - name: Build Frontend
       run: npm run build
