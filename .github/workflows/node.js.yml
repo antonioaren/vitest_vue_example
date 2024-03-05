@@ -26,9 +26,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
-    - name: Install playwright dependencies
-      run: sudo apt-get install -y libgbm-dev
-
     - name: Install Dependencies
       run: npm i
 
