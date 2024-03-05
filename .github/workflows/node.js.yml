@@ -32,5 +32,8 @@ jobs:
     - name: Run Tests
       run: npm run test:coverage
 
+    - name: Run BDD Tests
+      run: npm run test:bdd
+
     - name: Build Frontend
       run: npm run build

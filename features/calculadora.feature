@@ -1,7 +1,13 @@
-Feature: show the number clicked
-  Everytime I click on a number, it should show on the screen
+Feature: make it work the calculator
+  - add
+  - substract
+  - multiply
+  - Divide
+  - Divide by 0
+  - Clean
+  - Delete a number
 
-  Scenario Outline: Show the number clicked
+  Scenario Outline: Make an operation
     Given I have a calculator
     When I click on button <num1>
     And I click on operation button "<operation>"
@@ -15,3 +21,8 @@ Feature: show the number clicked
       | 2    | +         | 2    | 4      |
       | 2    | -         | 2    | 0      |
       | 2    | x         | 4    | 8      |
+      | 2    | x         | 4    | 8      |
+      | 10   | /         | 2    | 5      |
+
+    Scenario : clean the display
+      Given
