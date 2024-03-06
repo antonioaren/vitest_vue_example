@@ -1,63 +1,44 @@
-# test-example
+# Symple calculator with some BDD and TDD sauce.
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a normal calculator as you have seen in any excessive, but with some sauce.
+this project is not about the calculator itself, but the way that use different tools to be able to create a simple
+project.
 
-## Recommended IDE Setup
+>[!info]
+>This project is educational, and the main goal is to show how to use different tools to make a project testable and secure.
 
-[VSCode](https://code.visualstudio.com/) +
-[Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and
-disable Vetur) +
-[TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+The most important point are:
 
-## Customize configuration
+- Cucumber as BDD tool, to be able to write the test in a human-readable way.
+- Vitest as TDD tool, to be able to write the test first and then the code.
+- GitHub Actions (GHA) as CI (Soon CD) tool, to be able to run the test in a pipeline (Soon deploy also).
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Quick start
 
-## Project Setup
+Run dependencies installation:
 
-```sh
-pnpm install
+```bash
+$ npm i
+$ npm run dev
 ```
 
-### Compile and Hot-Reload for Development
+If you want to try test, you can run:
 
-```sh
-pnpm dev
+```bash
+# for unit test
+$ npm run test:unit
 ```
 
-### Compile and Minify for Production
-
-```sh
-pnpm build
+```bash
+# for e2e test
+$ npm run test:bdd
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## GitHub Actions
 
-```sh
-pnpm test:unit
-```
+either if you do a pull request or you fork and push your branch, the GHA will run the test for you.
+You can check this in file [workflow](.github/workflows/node.js.yml) or either in
+the [Actions tab](https://github.com/antonioaren/vitest_vue_example/actions)
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
-
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-pnpm build
-
-# Runs the end-to-end tests
-pnpm test:e2e
-# Runs the tests only on Chromium
-pnpm test:e2e --project=chromium
-# Runs the tests of a specific file
-pnpm test:e2e tests/example.spec.ts
-# Runs the tests in debug mode
-pnpm test:e2e --debug
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+## License
+WTFPL
