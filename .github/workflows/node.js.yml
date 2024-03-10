@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Install Dependencies
-      run: npm ci
+      run: npm i
 
   code_style:
     needs: dependencies
