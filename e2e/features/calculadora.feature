@@ -23,3 +23,10 @@ Feature: make it work the calculator
       | 2    | x         | 4    | 8      |
       | 2    | x         | 4    | 8      |
       | 8    | /         | 2    | 4      |
+
+    Scenario: Factorial Operation
+      Given I have a calculator
+      When I click on button 5
+      And I click on operation button '!'
+      And I click on operation button '='
+      Then I will have as a result 120

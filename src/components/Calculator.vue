@@ -5,7 +5,7 @@ import Calculator from '../core/calculator'
 
 
 const calculator = [
-    ['A', 'C', '%', ' '],
+    ['A', 'C', '%', '!'],
     ['7', '8', '9', '/'],
     ['4', '5', '6', 'x'],
     ['1', '2', '3', '-'],
@@ -20,12 +20,18 @@ let isOperationResult = false
 
 const relation = {
     '+': Calculator.add,
-    '-': Calculator.substract,
+    '-': Calculator.subtract,
     x: Calculator.multiply,
     '/': Calculator.divide,
+    '!': Calculator.factorial,
 }
 
 function resolveOperation() {
+    if(operation === '!') {
+        accumulate.value = relation[operation](parseFloat(accumulate.value.split("!")[0])).toString()
+        isOperationResult = true
+        return
+    }
     if (!aux || !operation) return
     accumulate.value = relation[operation](
         parseFloat(aux),
@@ -49,6 +55,9 @@ function handleOperation(keyup) {
         aux = accumulate.value
         accumulate.value = '0'
         isFirstTime = true
+        operation = keyup
+    } else if (keyup === '!') {
+        accumulate.value = accumulate.value + keyup
         operation = keyup
     } else if (keyup === 'A') {
         reset()
@@ -90,15 +99,15 @@ function catchInput(keyup) {
             {{ accumulate }}
         </div>
         <div
-            class="row"
             v-for="(row, index) in calculator"
             :key="index"
+            class="row"
         >
             <button
-                class="keyup"
-                @click="catchInput(keyup)"
                 v-for="(keyup, idx) in row"
                 :key="idx"
+                class="keyup"
+                @click="catchInput(keyup)"
             >
                 {{ keyup }}
             </button>
