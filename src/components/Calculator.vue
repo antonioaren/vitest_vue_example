@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import { ref } from 'vue'
-import Calculator from '@/core/calculator.ts'
+import Calculator from '../core/calculator.ts'
 
 
 const calculator = [
@@ -14,29 +14,34 @@ const calculator = [
 
 let accumulate = ref('0')
 let aux = ''
-let operation = null
+let operation: string | null = null
 let isFirstTime = true
 let isOperationResult = false
 
-const relation = {
+interface Relation {
+    '+': (a: number, b: number) => number
+    '-': (a: number, b: number) => number
+    'x': (a: number, b: number) => number
+    '/': (a: number, b: number) => number
+    '!': (a: number) => number
+}
+
+const relation : Relation = {
     '+': Calculator.add,
     '-': Calculator.subtract,
-    x: Calculator.multiply,
+    'x': Calculator.multiply,
     '/': Calculator.divide,
     '!': Calculator.factorial,
 }
 
 function resolveOperation() {
-    if(operation === '!') {
-        accumulate.value = relation[operation](parseFloat(accumulate.value.split("!")[0])).toString()
+    if (operation === '!') {
+        accumulate.value = relation[operation](parseFloat(accumulate.value.split('!')[0])).toString()
         isOperationResult = true
         return
     }
     if (!aux || !operation) return
-    accumulate.value = relation[operation](
-        parseFloat(aux),
-        parseFloat(accumulate.value),
-    ).toString()
+    accumulate.value = relation[operation as keyof Relation ](parseFloat(aux), parseFloat(accumulate.value)).toString()
     aux = '0'
     operation = null
     isFirstTime = true
@@ -50,7 +55,7 @@ function reset() {
     isOperationResult = false
 }
 
-function handleOperation(keyup) {
+function handleOperation(keyup: string) {
     if (keyup === '+' || keyup === '-' || keyup === 'x' || keyup === '/') {
         aux = accumulate.value
         accumulate.value = '0'
@@ -68,7 +73,7 @@ function handleOperation(keyup) {
     }
 }
 
-function handleNumber(keyup) {
+function handleNumber(keyup: string) {
     if (keyup === ' ') return
 
     if (isFirstTime) {
@@ -79,8 +84,8 @@ function handleNumber(keyup) {
     accumulate.value += keyup
 }
 
-function catchInput(keyup) {
-    if (isNaN(keyup)) {
+function catchInput(keyup: string) {
+    if (isNaN(Number(keyup))) {
         handleOperation(keyup)
     } else {
         if (isOperationResult) {
