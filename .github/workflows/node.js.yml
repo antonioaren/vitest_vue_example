@@ -12,7 +12,7 @@ on:
     branches: [ "develop", "feature/*" ]
 
 jobs:
-  build:
+  setup:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     
@@ -29,12 +29,31 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
+  dependencies:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
     - name: Install Dependencies
       run: npm ci
 
+  code_style:
+    needs: dependencies
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run Linting
+      run: npm run lint
+
+  test:
+    needs: dependencies
+    runs-on: ubuntu-latest
+    steps:
     - name: Run Tests
       run: npm run test:coverage
 
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
     - name: Build Frontend
       run: npm run build
 
@@ -51,4 +70,4 @@ jobs:
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel deploy --environment=preview --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
