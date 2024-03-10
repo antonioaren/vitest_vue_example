@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import { ref } from 'vue'
-import Calculator from '@/core/calculator.ts'
+import Calculator from '../core/calculator.ts'
 
 
 const calculator = [
@@ -14,29 +14,34 @@ const calculator = [
 
 let accumulate = ref('0')
 let aux = ''
-let operation = null
+let operation: string | null = null
 let isFirstTime = true
 let isOperationResult = false
 
-const relation = {
+interface Relation {
+    '+': (a: number, b: number) => number
+    '-': (a: number, b: number) => number
+    'x': (a: number, b: number) => number
+    '/': (a: number, b: number) => number
+    '!': (a: number) => number
+}
+
+const relation: Relation = {
     '+': Calculator.add,
     '-': Calculator.subtract,
-    x: Calculator.multiply,
+    'x': Calculator.multiply,
     '/': Calculator.divide,
     '!': Calculator.factorial,
 }
 
 function resolveOperation() {
-    if(operation === '!') {
-        accumulate.value = relation[operation](parseFloat(accumulate.value.split("!")[0])).toString()
+    if (operation === '!') {
+        accumulate.value = relation[operation](parseFloat(accumulate.value.split('!')[0])).toString()
         isOperationResult = true
         return
     }
     if (!aux || !operation) return
-    accumulate.value = relation[operation](
-        parseFloat(aux),
-        parseFloat(accumulate.value),
-    ).toString()
+    accumulate.value = relation[operation as keyof Relation](parseFloat(aux), parseFloat(accumulate.value)).toString()
     aux = '0'
     operation = null
     isFirstTime = true
@@ -50,7 +55,7 @@ function reset() {
     isOperationResult = false
 }
 
-function handleOperation(keyup) {
+function handleOperation(keyup: string) {
     if (keyup === '+' || keyup === '-' || keyup === 'x' || keyup === '/') {
         aux = accumulate.value
         accumulate.value = '0'
@@ -68,7 +73,7 @@ function handleOperation(keyup) {
     }
 }
 
-function handleNumber(keyup) {
+function handleNumber(keyup: string) {
     if (keyup === ' ') return
 
     if (isFirstTime) {
@@ -79,8 +84,8 @@ function handleNumber(keyup) {
     accumulate.value += keyup
 }
 
-function catchInput(keyup) {
-    if (isNaN(keyup)) {
+function catchInput(keyup: string) {
+    if (isNaN(Number(keyup))) {
         handleOperation(keyup)
     } else {
         if (isOperationResult) {
@@ -93,52 +98,66 @@ function catchInput(keyup) {
 </script>
 
 <template>
-    <h1>Calculator</h1>
-    <div class="container">
-        <div class="display">
-            {{ accumulate }}
-        </div>
-        <div
-            v-for="(row, index) in calculator"
-            :key="index"
-            class="row"
-        >
-            <button
-                v-for="(keyup, idx) in row"
-                :key="idx"
-                class="keyup"
-                @click="catchInput(keyup)"
+    <div class="calculator">
+        <h1 class="title">Calculator</h1>
+        <div class="container">
+            <div class="display">
+                {{ accumulate }}
+            </div>
+            <div
+                v-for="(row, index) in calculator"
+                :key="index"
+                class="row"
             >
-                {{ keyup }}
-            </button>
+                <button
+                    v-for="(keyup, idx) in row"
+                    :key="idx"
+                    class="keyup"
+                    @click="catchInput(keyup)"
+                >
+                    {{ keyup }}
+                </button>
+            </div>
         </div>
     </div>
+
 </template>
 
 <style lang="scss" scoped>
-.container {
-    .display {
-        padding: 20px;
-        border-radius: 10px;
-        border: 1px solid grey;
-        box-sizing: border-box;
-        margin-bottom: 20px;
-        width: calc(90px * 4);
-        display: flex;
-        justify-content: flex-end;
-        font-size: 32px;
+.calculator {
+    display: flex;
+    flex-direction: column;
+    max-width: calc(80px * 4);
+    width: 100%;
+    margin: 0 auto;
+
+    .title {
+        text-align: center;
     }
-
-    .row {
-        display: grid;
-        grid-template-columns: repeat(4, 90px);
-
-        .keyup {
-            padding: 20px 30px;
+    .container {
+        .display {
+            padding: 20px;
             border-radius: 10px;
             border: 1px solid grey;
             box-sizing: border-box;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 32px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+
+            .keyup {
+                padding: 20px 30px;
+                box-sizing: border-box;
+                border-radius: 10px;
+                border: 1px solid grey;
+            }
         }
     }
+
 }
 </style>

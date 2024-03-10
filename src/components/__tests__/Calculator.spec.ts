@@ -2,10 +2,8 @@ import { describe, it, expect } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import Calculator from '@components/Calculator.vue'
-import { findCharacterIndex } from '@/utils/helpers'
+import Calculator from '../../components/Calculator.vue'
+import { findCharacterIndex } from '../../utils/helpers'
 
 const calculator = [
     ['A', 'C', '%', '!'],
@@ -43,36 +41,40 @@ describe('Calculator', () => {
         const buttons = wrapper.findAll('button')
 
         for (let i = 0; i < buttons.length; i++) {
-            expect(calculator.flat()[i]).toBe(buttons.at(i).text())
+            expect(calculator.flat()[i]).toBe(buttons?.at(i)?.text())
         }
     })
 
     it('should display a number when a click a number button', async () => {
         const wrapper = mount(Calculator)
         const button = wrapper.findAll('button').at(5)
-        await button.trigger('click')
-        expect(wrapper.find('.display').text()).toBe(button.text())
+        await button?.trigger('click')
+        expect(wrapper.find('.display').text()).toBe(button?.text())
     })
 
     it('when I click in number and !, should be shown n!', async () => {
         const wrapper = mount(Calculator)
         const allButtons = wrapper.findAll('button')
-        const button = allButtons.at(5)
-        await button.trigger('click')
-        const exclamation = allButtons.at(3)
-        await exclamation.trigger('click')
-        expect(wrapper.find('.display').text()).toBe(button.text() + exclamation.text())
+        const button = allButtons.at(findCharacterIndex(allButtons, '8'))
+        await button?.trigger('click')
+        const exclamation = allButtons.at(findCharacterIndex(allButtons, '!'))
+        await exclamation?.trigger('click')
+        if (button?.text() && exclamation?.text()) {
+            expect(wrapper.find('.display').text()).toBe(button?.text() + exclamation?.text())
+        } else {
+            throw new Error('Button or exclamation not found')
+        }
     })
 
     it('when I click in number and !, should be shown n! and the =, get result', async () => {
         const wrapper = mount(Calculator)
         const allButtons = wrapper.findAll('button')
         const button = allButtons.at(findCharacterIndex(allButtons, '5'))
-        await button.trigger('click')
+        await button?.trigger('click')
         const exclamation = allButtons.at(findCharacterIndex(allButtons, '!'))
-        await exclamation.trigger('click')
+        await exclamation?.trigger('click')
         const equal = allButtons.at(findCharacterIndex(allButtons, '='))
-        await equal.trigger('click')
+        await equal?.trigger('click')
         expect(wrapper.find('.display').text()).toBe('120')
     })
 })
