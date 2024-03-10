@@ -26,7 +26,7 @@ interface Relation {
     '!': (a: number) => number
 }
 
-const relation : Relation = {
+const relation: Relation = {
     '+': Calculator.add,
     '-': Calculator.subtract,
     'x': Calculator.multiply,
@@ -41,7 +41,7 @@ function resolveOperation() {
         return
     }
     if (!aux || !operation) return
-    accumulate.value = relation[operation as keyof Relation ](parseFloat(aux), parseFloat(accumulate.value)).toString()
+    accumulate.value = relation[operation as keyof Relation](parseFloat(aux), parseFloat(accumulate.value)).toString()
     aux = '0'
     operation = null
     isFirstTime = true
@@ -98,52 +98,66 @@ function catchInput(keyup: string) {
 </script>
 
 <template>
-    <h1>Calculator</h1>
-    <div class="container">
-        <div class="display">
-            {{ accumulate }}
-        </div>
-        <div
-            v-for="(row, index) in calculator"
-            :key="index"
-            class="row"
-        >
-            <button
-                v-for="(keyup, idx) in row"
-                :key="idx"
-                class="keyup"
-                @click="catchInput(keyup)"
+    <div class="calculator">
+        <h1 class="title">Calculator</h1>
+        <div class="container">
+            <div class="display">
+                {{ accumulate }}
+            </div>
+            <div
+                v-for="(row, index) in calculator"
+                :key="index"
+                class="row"
             >
-                {{ keyup }}
-            </button>
+                <button
+                    v-for="(keyup, idx) in row"
+                    :key="idx"
+                    class="keyup"
+                    @click="catchInput(keyup)"
+                >
+                    {{ keyup }}
+                </button>
+            </div>
         </div>
     </div>
+
 </template>
 
 <style lang="scss" scoped>
-.container {
-    .display {
-        padding: 20px;
-        border-radius: 10px;
-        border: 1px solid grey;
-        box-sizing: border-box;
-        margin-bottom: 20px;
-        width: calc(90px * 4);
-        display: flex;
-        justify-content: flex-end;
-        font-size: 32px;
+.calculator {
+    display: flex;
+    flex-direction: column;
+    max-width: calc(80px * 4);
+    width: 100%;
+    margin: 0 auto;
+
+    .title {
+        text-align: center;
     }
-
-    .row {
-        display: grid;
-        grid-template-columns: repeat(4, 90px);
-
-        .keyup {
-            padding: 20px 30px;
+    .container {
+        .display {
+            padding: 20px;
             border-radius: 10px;
             border: 1px solid grey;
             box-sizing: border-box;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-end;
+            font-size: 32px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+
+            .keyup {
+                padding: 20px 30px;
+                box-sizing: border-box;
+                border-radius: 10px;
+                border: 1px solid grey;
+            }
         }
     }
+
 }
 </style>
