@@ -19,7 +19,7 @@ export default mergeConfig(
                 'src/main.js',
                 'src/*.config.js',
             ],
-            root: fileURLToPath(new URL('./', import.meta.url)),
+            root: fileURLToPath(new URL('./', import.meta.url))
         },
     }),
 )

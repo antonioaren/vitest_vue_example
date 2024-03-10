@@ -2,7 +2,9 @@ import { describe, it, expect } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 
-import Calculator from "@/components/Calculator.vue"
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import Calculator from '@components/Calculator.vue'
 import { findCharacterIndex } from '@/utils/helpers'
 
 const calculator = [
@@ -40,7 +42,7 @@ describe('Calculator', () => {
         const wrapper = mount(Calculator)
         const buttons = wrapper.findAll('button')
 
-        for (let i=0; i < buttons.length; i++) {
+        for (let i = 0; i < buttons.length; i++) {
             expect(calculator.flat()[i]).toBe(buttons.at(i).text())
         }
     })
@@ -59,7 +61,7 @@ describe('Calculator', () => {
         await button.trigger('click')
         const exclamation = allButtons.at(3)
         await exclamation.trigger('click')
-        expect(wrapper.find('.display').text()).toBe(button.text()+exclamation.text())
+        expect(wrapper.find('.display').text()).toBe(button.text() + exclamation.text())
     })
 
     it('when I click in number and !, should be shown n! and the =, get result', async () => {
