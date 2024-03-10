@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 import { ref } from 'vue'
-import Calculator from '../core/calculator'
+import Calculator from '@/core/calculator.ts'
 
 
 const calculator = [
